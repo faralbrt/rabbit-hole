@@ -13,3 +13,16 @@
  *= require_tree .
  *= require_self
  */
+.container-fluid {
+  background-color: #99ffc8;
+}
+.container {
+  width: 60%;
+  margin: auto;
+  border: 1px solid black;
+  background-color: white;
+}
+.center {
+  text-align: center;
+  margin: auto;
+}
