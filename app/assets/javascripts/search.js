@@ -1,19 +1,31 @@
 $(document).ready(function() {
+  makeRequest();
+  $("#search-form").on("submit", function(e) {
+    e.preventDefault();
+    var object = $(e.target);
+    var queryObject = $("input[name='query']")
+    var intitle = queryObject.val()
+    queryObject.val("")
+    makeRequest({intitle: intitle});
+  });
+});
+
+function makeRequest(data = {}) {
   $.ajax({
     method: "get",
-    url: "https://api.stackexchange.com//2.2/search?order=desc&sort=relevance&intitle=Shortest%20way%20to%20write%20ternary%20in%20Ruby%20that%20returns%20other%20value%20for%20nil?&site=stackoverflow&filter=!.J-EvFw7eWtxYyPGh4gccPvu)8td4"
+    url: buildSearchUrl(data)
   }).done(function(r) {
     updateDom(r.items)
   }).fail(function(r) {
     console.log(r);
   });
-});
+}
 
 function buildSearchUrl(data) {
   var url = "https://api.stackexchange.com/2.2/search?"
   var defaults = {"order": "desc",
                  "sort": "relevance",
-                 "intitle": "ruby on rails generate controller",
+                 "intitle": "ruby",
                  "site": "stackoverflow",
                  "filter": "!.J-EvFw7eWtxYyPGh4gccPvu)8td4"
                 }
@@ -31,6 +43,7 @@ function buildSearchUrl(data) {
 }
 
 function updateDom(items) {
+  $("#results").html("");
   items.forEach(function(item) {
     var question = buildQuestionElement(item)
     appendResult(question)
